@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in & Sign up Form</title>
+    <link rel="stylesheet" href="style.css" />
+    
+  </head>
+  <body class="darkmode">
+    <main>
+      <div class="box">
+        <div class="inner-box">
+          <div class="forms-wrap">
+            <form action="index.html" autocomplete="off" class="sign-in-form">
+              <div class="logo">
+                <img src="./img/logo.png" alt="easyclass" />
+                <h4>SOULANCE</h4>
+              </div>
+
+              <div class="heading">
+                <h2>Welcome Back</h2>
+                <h6>Not registred yet?</h6>
+                <a href="#" class="toggle">Sign up</a>
+              </div>
+
+              <div class="actual-form">
+                <div class="input-wrap">
+                  <input type="email" class="input-field" autocomplete="off" required />
+                  <label>Email</label>
+                </div>
+
+                <div class="input-wrap">
+                  <input
+                    type="password"
+                    minlength="4"
+                    class="input-field"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>Password</label>
+                </div>
+
+                <input type="submit" value="Sign In" class="sign-btn" />
+
+                <p class="text">
+                  Forgotten your password or you login datails?
+                  <a href="#">Get help</a> signing in
+                </p>
+              </div>
+            </form>
+
+            <form action="index.html" autocomplete="off" class="sign-up-form">
+              <div class="logo">
+                <img src="./img/logo.png" alt="easyclass" />
+                <h4>SOULANCE</h4>
+              </div>
+
+              <div class="heading">
+                <h2>Get Started</h2>
+                <h6>Already have an account?</h6>
+                <a href="landing.html" class="toggle">Sign in</a>
+              </div>
+
+              <div class="actual-form">
+                <div class="input-wrap">
+                  <input
+                    type="text"
+                    minlength="4"
+                    class="input-field"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>Name</label>
+                </div>
+
+                <div class="input-wrap">
+                  <input
+                    type="email"
+                    class="input-field"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>Email</label>
+                </div>
+
+                <div class="input-wrap">
+                  <input
+                    type="password"
+                    minlength="4"
+                    class="input-field"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>Password</label>
+                </div>
+
+                <input type="submit" value="Sign Up" class="sign-btn" />
+
+                <p class="text">
+                  By signing up, I agree to the
+                  <a href="#">Terms of Services</a> and
+                  <a href="#">Privacy Policy</a>
+                </p>
+              </div>
+            </form>
+          </div>
+
+          <div class="carousel">
+            <div class="images-wrapper">
+              <img src="./img/image1.png" class="image img-1 show" alt="" />
+              <img src="./img/image2.png" class="image img-2" alt="" />
+              <img src="./img/image3.png" class="image img-3" alt="" />
+            </div>
+
+            <div class="text-slider">
+              <div class="text-wrap">
+                <div class="text-group">
+                  <h2>Where the soul feels at home</h2>
+                  <h2>Comfort that begins within.</h2>
+                  <h2>A pause. A breath. Soulance.</h2>
+                </div>
+              </div>
+
+              <div class="bullets">
+                <span class="active" data-value="1"></span>
+                <span data-value="2"></span>
+                <span data-value="3"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Javascript file -->
+<!-- Firebase SDKs -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB0rKcScZ60BLxNOYvDzNqU7iqLrcFa4Dg",
+    authDomain: "soulance-2017e.firebaseapp.com",
+    projectId: "soulance-2017e",
+    storageBucket: "soulance-2017e.appspot.com",
+    messagingSenderId: "38991014947",
+    appId: "1:38991014947:web:5573a7847d9d743ebd5596",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Sign Up
+  const signUpForm = document.querySelector(".sign-up-form");
+  if (signUpForm) {
+    signUpForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = signUpForm.querySelector('input[type="email"]').value;
+      const password = signUpForm.querySelector('input[type="password"]').value;
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("Signup successful! You can now log in.");
+        signUpForm.reset();
+        window.location.href = "index.html"; // redirect to landing
+      } catch (error) {
+        alert("Signup failed: " + error.message);
+      }
+    });
+  }
+
+  // Sign In
+  const signInForm = document.querySelector(".sign-in-form");
+  if (signInForm) {
+    signInForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = signInForm.querySelector('input[type="email"]').value;
+      const password = signInForm.querySelector('input[type="password"]').value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Login successful!");
+        window.location.href = "index.html"; // redirect to landing
+      } catch (error) {
+        alert("Login failed: " + error.message);
+      }
+    });
+  }
+
+  // Optional: Auto detect login on landing page
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("User is logged in:", user.email);
+      // You can now show profile options instead of Sign In/Up
+      // e.g., hide buttons or update DOM
+    }
+  });
+</script>
+
+
+    <script src="app.js"></script>
+  </body>
+</html>
